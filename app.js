@@ -35,6 +35,20 @@ class Quotes {
     }
         
     //Method to display current quote
+    static displayQuote(quote) {
+        //The element right above where the quote should be
+        const above = document.getElementById('header');
+
+        //The element to be added which consists of the new quote
+        const addition = document.createElement('p');
+        addition.className = 'lead';
+
+        addition.innerText = quote;
+        console.log(quote);
+        
+        //Add quote under heading
+        above.appendChild(addition);
+    }
 }
 
 
@@ -42,7 +56,8 @@ class Quotes {
 
 //Pick a current quote
 let quote = new Quotes;
-quote.pickQuote();
+quote = quote.pickQuote();
+Quotes.displayQuote(quote);
 
 //To iterate over the quote
 let i = 0; 
@@ -66,6 +81,3 @@ document.addEventListener('keyup',
         }
         e.preventDefault();
 });
-
-/*
-*/
