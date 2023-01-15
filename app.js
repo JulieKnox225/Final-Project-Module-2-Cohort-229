@@ -22,16 +22,8 @@ class Quotes {
     }
     
     //Method to pick the new quote
-    pickQuote(current = this.quoteCollection[0]) {
-        let newQuote = this.quoteCollection[Math.floor(Math.random() * this.quoteCollection.length)];
-    
-        while(newQuote == current) {
-            newQuote = this.quoteCollection[Math.floor(Math.random() * this.quoteCollection.length)];
-            console.log('same');
-        }
-    
-        console.log('different');
-        return newQuote;
+    pickQuote() {
+        return this.quoteCollection[Math.floor(Math.random() * this.quoteCollection.length)];;
     }
         
     //Method to display current quote
@@ -44,7 +36,6 @@ class Quotes {
         addition.className = 'lead';
 
         addition.innerText = quote;
-        console.log(quote);
         
         //Add quote under heading
         above.appendChild(addition);
@@ -58,26 +49,27 @@ class Quotes {
 let quote = new Quotes;
 quote = quote.pickQuote();
 Quotes.displayQuote(quote);
+console.log(quote.length);
 
 //To iterate over the quote
 let i = 0; 
 
 //Event listener for when a key is pressed
-document.addEventListener('keyup', 
+document.addEventListener('keypress', 
     function(e) {
-        console.log(e.target);
+        if(i === quote.length) {
+            quote = quote.pickQuote();
+            Quotes.displayQuote(quote);
+            i = 0;
+        }
+         
         //Compare if the correct key is pressed
         if(e.key === quote[i]) {
            console.log('correct');
            i++;
-
-           if(i === quote[i].length) {
-            i = 0;
-            quote.pickQuote(quote);
-           }
-           
+            console.log(i);
         } else {
-           console.log('incorrect');
+            console.log('incorrect');
         }
         e.preventDefault();
-});
+    });
