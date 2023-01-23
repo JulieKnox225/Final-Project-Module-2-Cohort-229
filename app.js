@@ -4,14 +4,14 @@ class Quotes {
         this.quoteCollection = [
             'The quick brown fox jumps over the lazy dog',
             'Jaded zombies acted quaintly but kept driving their oxen forward',
-            'My girl wove siz dozen plaid jackets before she quit',
+            'My girl wove six dozen plaid jackets before she quit',
             'The key to success is failure',
             'If there is no struggle, there is no progress',
             'The early bird catches the worm',
             "Don't let yesterday take up too much of today",
             'Wherever you go, go with all your heart',
             "Believe you can and you're halfway there",
-            'Not all who wonder are lost',
+            'Not all who wander are lost',
             'Change is inevitable. Growth is optional',
             'Oh yes, the past can hurt. But you can either run from it, or learn from it',
             'You sit on a throne of lies',
@@ -33,12 +33,17 @@ class Quotes {
 
         //The element to be added which consists of the new quote
         const addition = document.createElement('p');
-        addition.className = 'lead';
+        addition.className = 'lead current';
 
         addition.innerText = quote;
         
         //Add quote under heading
         above.appendChild(addition);
+    }
+
+    static deleteQuote() {
+        let old = document.querySelector('p');
+        old.remove();
     }
 }
 
@@ -58,9 +63,17 @@ let i = 0;
 document.addEventListener('keypress', 
     function(e) {
         if(i === quote.length) {
+            //Generate new quote
             let newQuote = new Quotes;
             newQuote = newQuote.pickQuote();
+
+            //Delete old quote
+            Quotes.deleteQuote();
+
+            //Display new quote
             Quotes.displayQuote(newQuote);
+
+            //Reset counter
             i = 0;
         }
          
