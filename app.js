@@ -23,7 +23,7 @@ class Quotes {
     
     //Method to pick the new quote
     pickQuote() {
-        return this.quoteCollection[Math.floor(Math.random() * this.quoteCollection.length)];;
+        return this.quoteCollection[Math.floor(Math.random() * this.quoteCollection.length)];
     }
         
     //Method to display current quote
@@ -58,8 +58,9 @@ let i = 0;
 document.addEventListener('keypress', 
     function(e) {
         if(i === quote.length) {
-            quote = quote.pickQuote();
-            Quotes.displayQuote(quote);
+            let newQuote = new Quotes;
+            newQuote = newQuote.pickQuote();
+            Quotes.displayQuote(newQuote);
             i = 0;
         }
          
