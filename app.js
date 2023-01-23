@@ -33,7 +33,7 @@ class Quotes {
 
         //The element to be added which consists of the new quote
         const addition = document.createElement('p');
-        addition.className = 'lead current';
+        addition.className = 'current';
 
         addition.innerText = quote;
         
@@ -41,20 +41,49 @@ class Quotes {
         above.appendChild(addition);
     }
 
+    //Method to remove the old quote from HTML
     static deleteQuote() {
         let old = document.querySelector('p');
         old.remove();
     }
 }
 
+//Function to indicate missed letter (see devLog)
+function incorrect(i) {
+    //changes the whole quote red
+    let missed = document.querySelector('p');
+    missed.className = 'current incorrect';
+
+    //the missed letter
+    let missedLetter = document.querySelector('p').innerText[i];
+
+    //creates another p tag to display missed letter under quote
+    let addition = document.createElement('p');
+    addition.className = 'missed-letter'
+    addition.innerText = missedLetter;
+
+    missed.appendChild(addition);
+}
+
+function reset() {
+    let current = document.querySelector('p');
+    current.className = 'current';
 
 
+    if(document.querySelector('.missed-letter') !== null) {
+        document.querySelector('.missed-letter').remove();
+    }
+}
 
 //Pick a current quote
 let quote = new Quotes;
 quote = quote.pickQuote();
 Quotes.displayQuote(quote);
 console.log(quote.length);
+
+//TEST ZONE
+
+//END TEST ZONE
 
 //To iterate over the quote
 let i = 0; 
@@ -79,11 +108,10 @@ document.addEventListener('keypress',
          
         //Compare if the correct key is pressed
         if(e.key === quote[i]) {
-           console.log('correct');
+           reset();
            i++;
-            console.log(i);
         } else {
-            console.log('incorrect');
+            incorrect(i);
         }
         e.preventDefault();
     });
