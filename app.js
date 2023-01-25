@@ -88,10 +88,33 @@ console.log(quote.length);
 //To iterate over the quote
 let i = 0; 
 
+//To track how many mistakes are made on a char
+let incorrectCounter = 0;
+
 //Event listener for when a key is pressed
 document.addEventListener('keypress', 
     function(e) {
+        //Compare if the correct key is pressed
+        if(e.key === quote[i]) {
+            //removes all mistake indicators
+            while(incorrectCounter > 0) {
+                reset();
+                incorrectCounter--;
+            }
+            i++;
+        } else {
+            incorrectCounter++;
+            incorrect(i);
+        }
+        
         if(i === quote.length) {
+            //Two ways of picking new quotes (see devlog):
+
+            //reload page
+            //this.location.reload();
+
+            //Pick new quote, and remove prev quote
+            /*
             //Generate new quote
             let newQuote = new Quotes;
             newQuote = newQuote.pickQuote();
@@ -104,14 +127,7 @@ document.addEventListener('keypress',
 
             //Reset counter
             i = 0;
-        }
-         
-        //Compare if the correct key is pressed
-        if(e.key === quote[i]) {
-           reset();
-           i++;
-        } else {
-            incorrect(i);
+            */
         }
         e.preventDefault();
     });
