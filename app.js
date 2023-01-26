@@ -51,7 +51,7 @@ class Quotes {
 }
 
 //Function to indicate missed letter (see devLog)
-function incorrect(i) {
+function incorrect(i, counter) {
     //changes the whole quote red
     let missed = document.querySelector('.mistakes');
     missed.className = 'mistakes incorrect';
@@ -59,12 +59,21 @@ function incorrect(i) {
     //the missed letter
     let missedLetter = document.querySelector('p').innerText[i];
 
+    //Check if char is a space key
+    if(missedLetter === ' ') {
+        missedLetter = 'space';
+    }
+
     //creates another p tag to display missed letter under quote
     let addition = document.createElement('p');
     addition.className = 'missed-letter'
     addition.innerText = missedLetter;
 
     missed.appendChild(addition);
+
+    //Updates mistake counter
+    let mistake = document.querySelector('.mistake-counter');
+    mistake.innerText = `Mistake Counter: ${counter}`;
 }
 
 function reset() {
@@ -90,6 +99,9 @@ console.log(quote.length);
 //To iterate over the quote
 let i = 0; 
 
+//To track how many mistakes are made on the quote
+let incorrectCounterGen = 0;
+
 //To track how many mistakes are made on a char
 let incorrectCounter = 0;
 
@@ -105,8 +117,9 @@ document.addEventListener('keypress',
             }
             i++;
         } else {
+            incorrectCounterGen++;
             incorrectCounter++;
-            incorrect(i);
+            incorrect(i, incorrectCounterGen);
         }
         
         if(i === quote.length) {
