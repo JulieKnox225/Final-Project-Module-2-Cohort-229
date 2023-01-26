@@ -1,0 +1,29 @@
+html {
+    background-color: #fefae0;
+}
+
+.container, .row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    height: 600px;
+}
+
+h1 {
+    justify-self: center;
+    align-self: center;
+}
+
+p {
+    display: flex;
+    font-size: 24px;
+    justify-content: center;
+}
+
+.incorrect {
+    color: #da2c38;
+}

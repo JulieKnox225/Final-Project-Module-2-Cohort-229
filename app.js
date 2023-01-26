@@ -29,13 +29,15 @@ class Quotes {
     //Method to display current quote
     static displayQuote(quote) {
         //The element right above where the quote should be
-        const above = document.getElementById('header');
+        const above = document.getElementById('header').parentElement;
 
         //The element to be added which consists of the new quote
         const addition = document.createElement('p');
         addition.className = 'current';
 
         addition.innerText = quote;
+
+        
         
         //Add quote under heading
         above.appendChild(addition);
@@ -51,8 +53,8 @@ class Quotes {
 //Function to indicate missed letter (see devLog)
 function incorrect(i) {
     //changes the whole quote red
-    let missed = document.querySelector('p');
-    missed.className = 'current incorrect';
+    let missed = document.querySelector('.mistakes');
+    missed.className = 'mistakes incorrect';
 
     //the missed letter
     let missedLetter = document.querySelector('p').innerText[i];
@@ -66,7 +68,7 @@ function incorrect(i) {
 }
 
 function reset() {
-    let current = document.querySelector('p');
+    let current = document.querySelector('.current');
     current.className = 'current';
 
 
@@ -114,10 +116,12 @@ document.addEventListener('keypress',
             //this.location.reload();
 
             //Pick new quote, and remove prev quote
-            /*
+            
             //Generate new quote
             let newQuote = new Quotes;
             newQuote = newQuote.pickQuote();
+
+            quote = newQuote;
 
             //Delete old quote
             Quotes.deleteQuote();
@@ -127,7 +131,7 @@ document.addEventListener('keypress',
 
             //Reset counter
             i = 0;
-            */
+            
         }
         e.preventDefault();
     });
