@@ -29,111 +29,105 @@ class Quotes {
     //Method to display current quote
     static displayQuote(quote) {
         //The element right above where the quote should be
-        const above = document.getElementById('header').parentElement;
+        const above = document.querySelector('.quote');
 
-        //The element to be added which consists of the new quote
-        const addition = document.createElement('p');
-        addition.className = 'current';
+        /** CREDIT TO https://www.geeksforgeeks.org/design-a-typing-speed-test-game-using-javascript/  */
+        // separate each character and make an element out of each of them to individually style them
+        quote.split('').forEach(char => {
+            const charSpan = document.createElement('span');
+            charSpan.innerText = char;
+            above.appendChild(charSpan);
+        });
 
-        addition.innerText = quote;
-
-        
-        
-        //Add quote under heading
-        above.appendChild(addition);
+        /**END OF CREDIT TO https://www.geeksforgeeks.org/design-a-typing-speed-test-game-using-javascript/ */
     }
 
     //Method to remove the old quote from HTML
     static deleteQuote() {
-        let old = document.querySelector('p');
-        old.remove();
+        //WRONG! MAKES INFINITE LOOP OR SOMETHING?
+        while(document.querySelector('span') !== null) {
+            document.querySelector('span').remove();
+        }
+        
     }
-}
+    
+    //Method to indicate missed letter (see devLog)
+    static incorrect(i, counter, numQuotes) {
+        //Find the missed char
+        let missedLetter = quoteArr[i];
 
-//Function to indicate missed letter (see devLog)
-function incorrect(i, counter) {
-    //changes the whole quote red
-    let missed = document.querySelector('.mistakes');
-    missed.className = 'mistakes incorrect';
+        //Give it the proper class name so CSS style will apply (change text to red)
+        missedLetter.className = 'incorrect';
 
-    //the missed letter
-    let missedLetter = document.querySelector('p').innerText[i];
-
-    //Check if char is a space key
-    if(missedLetter === ' ') {
-        missedLetter = 'space';
+        //If the char is a space, it will highlight the background
+        if(missedLetter.firstChild.textContent == ' ') {
+            missedLetter.className = 'space';
+        }
+    
+        //Updates mistake counter
+        let mistake = document.querySelector('.mistake-counter');
+        mistake.innerText = `Total Number of Mistakes: ${counter}`;
     }
-
-    //creates another p tag to display missed letter under quote
-    let addition = document.createElement('p');
-    addition.className = 'missed-letter'
-    addition.innerText = missedLetter;
-
-    missed.appendChild(addition);
-
-    //Updates mistake counter
-    let mistake = document.querySelector('.mistake-counter');
-    mistake.innerText = `Mistake Counter: ${counter}`;
-}
-
-function reset() {
-    let current = document.querySelector('.current');
-    current.className = 'current';
-
-
-    if(document.querySelector('.missed-letter') !== null) {
-        document.querySelector('.missed-letter').remove();
+    
+    //Method to remove the incorrect class name from the corrected char
+    static reset() {
+        if(document.querySelector('.incorrect') !== null) {
+            document.querySelector('.incorrect').classList = '';
+        } else if(document.querySelector('.space') !== null) {
+            document.querySelector('.space').classList = '';
+        }
     }
+    
+    //Method to update the on screen counter for completed quotes
+    static updateQuoteCounter(counter) {
+        let div = document.querySelector('.counter');
+    
+        div.innerText = `How Many Quotes Completed: ${counter}`;
+    
+        if(document.querySelector('.remove') !== null) {
+            document.querySelector('.remove').remove();
+        }
+    }
+    
 }
 
 //Pick a current quote
 let quote = new Quotes;
 quote = quote.pickQuote();
 Quotes.displayQuote(quote);
-console.log(quote.length);
 
-//TEST ZONE
+//Array of each char of the given quote
+let quoteArr = document.querySelectorAll('span');
 
-//END TEST ZONE
+/* Counters */
+let i = 0; //To iterate over the quote
 
-//To iterate over the quote
-let i = 0; 
+let incorrectCounterGen = 0; //To track how many mistakes are made on the quote
 
-//To track how many mistakes are made on the quote
-let incorrectCounterGen = 0;
+let numQuotes = 0; //Track how many quotes have been typed
 
-//To track how many mistakes are made on a char
-let incorrectCounter = 0;
 
 //Event listener for when a key is pressed
 document.addEventListener('keypress', 
     function(e) {
         //Compare if the correct key is pressed
-        if(e.key === quote[i]) {
+        if(e.key === quoteArr[i].firstChild.textContent) {
             //removes all mistake indicators
-            while(incorrectCounter > 0) {
-                reset();
-                incorrectCounter--;
-            }
+            Quotes.reset();
+
+            //increases iterator 
             i++;
         } else {
             incorrectCounterGen++;
-            incorrectCounter++;
-            incorrect(i, incorrectCounterGen);
+            Quotes.incorrect(i, incorrectCounterGen, numQuotes);
         }
         
-        if(i === quote.length) {
-            //Two ways of picking new quotes (see devlog):
-
-            //reload page
-            //this.location.reload();
-
-            //Pick new quote, and remove prev quote
-            
+        if(i === quote.length) {            
             //Generate new quote
             let newQuote = new Quotes;
             newQuote = newQuote.pickQuote();
 
+            //Set old quote equal to new quote
             quote = newQuote;
 
             //Delete old quote
@@ -142,9 +136,10 @@ document.addEventListener('keypress',
             //Display new quote
             Quotes.displayQuote(newQuote);
 
-            //Reset counter
+            //Reset and Update counters
+            numQuotes++;
+            Quotes.updateQuoteCounter(numQuotes);
             i = 0;
-            
         }
         e.preventDefault();
     });

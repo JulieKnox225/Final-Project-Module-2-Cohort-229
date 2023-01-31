@@ -24,11 +24,11 @@ p {
     justify-content: center;
 }
 
-.current, .missed-letter {
+.quote, .missed-letter, .counter, .remove {
     font-size: 32px;
 }
 
-.mistake-counter {
+.mistake-counter , .counter, .remove{
     font-size: 2em;
     margin-block-start: 0.67em;
     margin-block-end: 0.67em;
@@ -39,4 +39,8 @@ p {
 
 .incorrect {
     color: #da2c38;
+}
+
+.space {
+    background-color: #da2c38;
 }
