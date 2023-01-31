@@ -47,6 +47,8 @@ class Quotes {
         for(let i = 0; i < quoteArr.length; i++) {
             quoteArr[i].remove();
         }
+
+        quoteArr =[];
     }
     
     //Method to indicate missed letter (see devLog)
@@ -64,7 +66,7 @@ class Quotes {
     
         //Updates mistake counter
         let mistake = document.querySelector('.mistake-counter');
-        mistake.innerText = `Total Number of Mistakes: ${counter}`;
+        mistake.innerText = `Mistakes: ${counter}`;
     }
     
     //Method to change the appearance of the correctly typed char to make it obvious it is correct
@@ -78,7 +80,7 @@ class Quotes {
     static updateQuoteCounter(counter) {
         let div = document.querySelector('.counter');
     
-        div.innerText = `How Many Quotes Completed: ${counter}`;
+        div.innerText = `Completed Quotes: ${counter}`;
     
         if(document.querySelector('.remove') !== null) {
             document.querySelector('.remove').remove();
@@ -92,8 +94,11 @@ let quote = new Quotes;
 quote = quote.pickQuote();
 Quotes.displayQuote(quote);
 
-//Array of each char of the given quote
-let quoteArr = document.querySelectorAll('span');
+//NodeList of each char of the given quote
+let quoteNodeList = document.querySelectorAll('span');
+
+//Create an array from the nodelist
+let quoteArr = Array.from(quoteNodeList);
 
 /* Counters */
 let i = 0; //To iterate over the quote
@@ -119,6 +124,9 @@ document.addEventListener('keypress',
         }
         
         if(i === quote.length) {            
+            //Delete old quote
+            Quotes.deleteQuote();
+
             //Generate new quote
             let newQuote = new Quotes;
             newQuote = newQuote.pickQuote();
@@ -126,15 +134,16 @@ document.addEventListener('keypress',
             //Set old quote equal to new quote
             quote = newQuote;
 
-            let newQuoteArr = document.querySelectorAll('span');
-
-            
-
-            //Delete old quote
-            Quotes.deleteQuote();
-
             //Display new quote
             Quotes.displayQuote(newQuote);
+
+            //Make a new nodelist to put the new quote spans into
+            let newQuoteNodeList = document.querySelectorAll('span');
+
+            //Set prev array to the new quote nodelist
+            let newQuoteArr = Array.from(newQuoteNodeList);
+            quoteArr = newQuoteArr;
+            console.log(newQuoteArr);
 
             //Reset and Update counters
             numQuotes++;

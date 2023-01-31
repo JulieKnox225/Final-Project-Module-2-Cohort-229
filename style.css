@@ -14,6 +14,12 @@ html {
     height: 600px;
 }
 
+
+.info {
+    flex-direction: row;
+    justify-content: space-around;
+}
+
 h1 {
     justify-self: center;
     align-self: center;
@@ -28,11 +34,11 @@ span {
     color: #656d4a;
 }
 
-.quote, .missed-letter, .counter, .remove {
+.quote, .source, .missed-letter, .counter, .remove {
     font-size: 32px;
 }
 
-.mistake-counter , .counter, .remove{
+.source, .mistake-counter , .counter, .remove{
     font-size: 2em;
     margin-block-start: 0.67em;
     margin-block-end: 0.67em;
