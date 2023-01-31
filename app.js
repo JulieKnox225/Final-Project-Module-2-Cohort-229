@@ -80,7 +80,7 @@ class Quotes {
     static updateQuoteCounter(counter) {
         let div = document.querySelector('.counter');
     
-        div.innerText = `Completed Quotes: ${counter}`;
+        div.innerText = `Completed: ${counter}`;
     
         if(document.querySelector('.remove') !== null) {
             document.querySelector('.remove').remove();
