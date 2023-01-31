@@ -44,11 +44,9 @@ class Quotes {
 
     //Method to remove the old quote from HTML
     static deleteQuote() {
-        //WRONG! MAKES INFINITE LOOP OR SOMETHING?
-        while(document.querySelector('span') !== null) {
-            document.querySelector('span').remove();
+        for(let i = 0; i < quoteArr.length; i++) {
+            quoteArr[i].remove();
         }
-        
     }
     
     //Method to indicate missed letter (see devLog)
@@ -69,13 +67,11 @@ class Quotes {
         mistake.innerText = `Total Number of Mistakes: ${counter}`;
     }
     
-    //Method to remove the incorrect class name from the corrected char
-    static reset() {
-        if(document.querySelector('.incorrect') !== null) {
-            document.querySelector('.incorrect').classList = '';
-        } else if(document.querySelector('.space') !== null) {
-            document.querySelector('.space').classList = '';
-        }
+    //Method to change the appearance of the correctly typed char to make it obvious it is correct
+    static update(i) {
+
+        quoteArr[i].className = 'correct';
+
     }
     
     //Method to update the on screen counter for completed quotes
@@ -113,7 +109,7 @@ document.addEventListener('keypress',
         //Compare if the correct key is pressed
         if(e.key === quoteArr[i].firstChild.textContent) {
             //removes all mistake indicators
-            Quotes.reset();
+            Quotes.update(i);
 
             //increases iterator 
             i++;
@@ -129,6 +125,10 @@ document.addEventListener('keypress',
 
             //Set old quote equal to new quote
             quote = newQuote;
+
+            let newQuoteArr = document.querySelectorAll('span');
+
+            
 
             //Delete old quote
             Quotes.deleteQuote();

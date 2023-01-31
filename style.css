@@ -1,6 +1,6 @@
 html {
     background-color: #fefae0;
-    color: #283618;
+    color: #333d29;
 }
 
 .container, .row {
@@ -24,6 +24,10 @@ p {
     justify-content: center;
 }
 
+span {
+    color: #656d4a;
+}
+
 .quote, .missed-letter, .counter, .remove {
     font-size: 32px;
 }
@@ -43,4 +47,8 @@ p {
 
 .space {
     background-color: #da2c38;
+}
+
+.correct {
+    color: #283618;
 }
