@@ -2,34 +2,9 @@ html {
     background-color: #fefae0;
     color: #333d29;
 }
-
-.container, .row {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.container-fluid {
+    background-color: #fefae0;
 }
-
-.container {
-    height: 600px;
-}
-
-
-.info {
-    flex-direction: row;
-    justify-content: space-around;
-}
-
-h1 {
-    justify-self: center;
-    align-self: center;
-}
-
-p {
-    display: flex;
-    justify-content: center;
-}
-
 span {
     color: #656d4a;
 }

@@ -5,23 +5,35 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Final Project of Module 2 of Cohort 229: Typing Practice Website inspired by monkeytype.com</title>
 
+    <style>
+
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <h1 id="header">Quote:</h1>
+    <div class="container-fluid d-flex flex-column justify-content-center">
+        <div class="row row-cols-auto">
+            <div class="col-12 text-center">
+                <h1 id="header">Quote:</h1>
+            </div>
         </div>
-        <div class="quote"></div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div class="quote"></div>
+                </div>
+            </div>
+    </div>
+    <div class="container-fluid d-flex justify-content-center">
         <div class="row info">
-            <div class="col">
+            <div class="col-md">
                 <p class="source">Source:</p>
             </div>
-            <div class="col">
+            <div class="col-md">
                 <p class="mistake-counter">Mistakes: </p>
             </div>
-            <div class="col">
+            <div class="col-md">
                 <p class="remove">Completed Quotes:</p>
                 <div class="counter"></div>
             </div>
