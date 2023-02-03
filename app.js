@@ -78,15 +78,53 @@ class Quotes {
     
     //Method to update the on screen counter for completed quotes
     static updateQuoteCounter(counter) {
-        let div = document.querySelector('.counter');
+        let completed = document.querySelector('.counter');
     
-        div.innerText = `Completed: ${counter}`;
+        completed.innerText = `Completed: ${counter}`;
     
-        if(document.querySelector('.remove') !== null) {
-            document.querySelector('.remove').remove();
-        }
     }
     
+    static updateWPM(timeElapsed, cpm) {
+        let wpm = Math.round(((cpm / 5)) / timeElapsed);
+
+        let div = document.querySelector('.wpm');
+    
+        div.innerText = `Word per Min: ${wpm}`;
+    
+    }
+
+    /*FULL CREDIT TO https://www.geeksforgeeks.org/design-a-typing-speed-test-game-using-javascript/*/
+    static finishGame() {   
+        // stop the timer
+        clearInterval(timer);
+    
+        Quotes.deleteQuote();
+        Quotes.displayQuote("TIMER'S DONE. PLEASE REFRESH PAGE");
+            
+        // calculate cpm and wpm
+        let cpm = Math.round(((charTyped / timeElapsed) * 60));
+        let wpm = Math.round((((charTyped / 5) / timeElapsed) * 60));
+     
+        document.querySelector('.wpm').innerText = `Words per Min: ${wpm}`;
+    }
+
+    static updateTimer() {
+        if (timeLeft > 0) {
+            // decrease the current time left
+            timeLeft--;
+        
+            // increase the time elapsed
+            timeElapsed++;
+        
+            // update the timer text
+            document.querySelector('.timer').innerText = `Timer: ${timeLeft}s`;
+        }
+        else {
+            // finish the game
+            Quotes.finishGame();
+        }
+    }
+    /*END CREDIT TO https://www.geeksforgeeks.org/design-a-typing-speed-test-game-using-javascript/*/
 }
 
 //Pick a current quote
@@ -100,6 +138,17 @@ let quoteNodeList = document.querySelectorAll('span');
 //Create an array from the nodelist
 let quoteArr = Array.from(quoteNodeList);
 
+//Timer for speed tracking CREDIT TO https://www.geeksforgeeks.org/design-a-typing-speed-test-game-using-javascript/
+let TIME_LIMIT = 60;
+let timeLeft = TIME_LIMIT;
+let timeElapsed = 0;
+let timer = null;
+let charTyped = 0;
+
+// clear old and start a new timer
+clearInterval(timer);
+timer = setInterval(Quotes.updateTimer, 1000);
+
 /* Counters */
 let i = 0; //To iterate over the quote
 
@@ -107,17 +156,19 @@ let incorrectCounterGen = 0; //To track how many mistakes are made on the quote
 
 let numQuotes = 0; //Track how many quotes have been typed
 
-
 //Event listener for when a key is pressed
 document.addEventListener('keypress', 
     function(e) {
+        charTyped++;
+
         //Compare if the correct key is pressed
         if(e.key === quoteArr[i].firstChild.textContent) {
             //removes all mistake indicators
             Quotes.update(i);
-
+            
             //increases iterator 
             i++;
+
         } else {
             incorrectCounterGen++;
             Quotes.incorrect(i, incorrectCounterGen, numQuotes);
@@ -126,29 +177,29 @@ document.addEventListener('keypress',
         if(i === quote.length) {            
             //Delete old quote
             Quotes.deleteQuote();
-
+            
             //Generate new quote
             let newQuote = new Quotes;
             newQuote = newQuote.pickQuote();
-
+            
             //Set old quote equal to new quote
             quote = newQuote;
-
+            
             //Display new quote
             Quotes.displayQuote(newQuote);
-
+            
             //Make a new nodelist to put the new quote spans into
             let newQuoteNodeList = document.querySelectorAll('span');
-
+            
             //Set prev array to the new quote nodelist
             let newQuoteArr = Array.from(newQuoteNodeList);
             quoteArr = newQuoteArr;
-            console.log(newQuoteArr);
-
+            
             //Reset and Update counters
             numQuotes++;
             Quotes.updateQuoteCounter(numQuotes);
             i = 0;
         }
+
         e.preventDefault();
     });
